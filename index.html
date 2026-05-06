@@ -1,0 +1,2052 @@
+<!--
+================================================================================
+BUN FIT — Marketing Website
+================================================================================
+DEPLOYMENT STEPS (Beginner Friendly):
+1. Save this file as index.html in a folder on your computer.
+2. Place your logo image as logo.png in the same folder (optional).
+3. To deploy FREE online:
+   a) Go to https://netlify.com and sign up for a free account.
+   b) Drag and drop your entire folder onto the Netlify dashboard.
+   c) Your site goes live instantly with a free URL!
+   d) To use a custom domain (e.g. bunfit.in), go to Domain Settings in Netlify.
+4. Alternative: Upload to GitHub Pages, Vercel, or any web host.
+5. To update: just re-upload the file. No server needed — it's all static HTML.
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bun Fit — Chennai's boldest bun shop. Butter Bun, Oreo Bun, Dark Choco Bun and more. By Prakash & Kaviarasu.">
+<meta name="theme-color" content="#3B1F0A">
+<title>Bun Fit — Chennai's Boldest Bun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS VARIABLES
+   ============================================================ */
+:root {
+  --white: #FFFFFF;
+  --off-white: #F8F5F0;
+  --cream: #F5ECD7;
+  --brown-deep: #3B1F0A;
+  --brown-mid: #7B4A2D;
+  --gold: #C9873A;
+  --charcoal: #1A1A1A;
+  --green-wa: #25D366;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 17px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  color: var(--charcoal);
+  background-color: var(--white);
+  transition: background-color 0.8s ease;
+  cursor: none;
+  overflow-x: hidden;
+}
+body.reduced-motion * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--brown-mid); border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ============================================================
+   SCROLL PROGRESS THREAD
+   ============================================================ */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--gold);
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+#cursor {
+  width: 28px; height: 28px;
+  border: 2px solid var(--brown-deep);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: difference;
+}
+#cursor.hovered { width: 56px; height: 56px; }
+@media (max-width: 768px) { #cursor { display: none; } body { cursor: auto; } }
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(64px, 10vw, 120px); font-weight: 900; letter-spacing: -2px; color: var(--brown-deep); line-height: 1; }
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 700; line-height: 1.15; }
+h3 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); font-weight: 700; }
+p { line-height: 1.85; }
+.label { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.mono { font-family: 'DM Mono', monospace; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+#main-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 20px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: transparent;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom 0.4s ease, padding 0.3s ease;
+}
+#main-nav.scrolled {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid #E8D8C8;
+  padding: 14px 48px;
+}
+#logo-container {
+  cursor: pointer;
+  display: flex; align-items: center;
+}
+#shop-logo { height: 48px; width: auto; object-fit: contain; }
+#logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 900;
+  color: var(--brown-deep); letter-spacing: 3px;
+}
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  color: var(--brown-deep); text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: var(--brown-deep); color: var(--white) !important;
+  padding: 10px 22px; border-radius: 100px;
+  font-weight: 600 !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+.nav-cta:hover { background: var(--gold) !important; transform: scale(1.04); }
+
+/* Hamburger */
+.hamburger-checkbox { display: none; }
+.hamburger-label {
+  display: none; cursor: pointer;
+  flex-direction: column; gap: 5px; padding: 4px;
+}
+.hamburger-label span {
+  display: block; width: 26px; height: 2px;
+  background: var(--brown-deep); border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.mobile-menu {
+  display: none;
+  position: fixed; inset: 0;
+  background: var(--white);
+  z-index: 490;
+  flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.mobile-menu a {
+  font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700;
+  color: var(--brown-deep); text-decoration: none;
+  transition: color 0.2s ease;
+}
+.mobile-menu a:hover { color: var(--gold); }
+.hamburger-checkbox:checked ~ .mobile-menu { opacity: 1; pointer-events: all; display: flex; }
+.hamburger-checkbox:checked + .hamburger-label span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-checkbox:checked + .hamburger-label span:nth-child(2) { opacity: 0; }
+.hamburger-checkbox:checked + .hamburger-label span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  #main-nav { padding: 16px 24px; }
+  #main-nav.scrolled { padding: 12px 24px; }
+  .nav-links { display: none; }
+  .hamburger-label { display: flex; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero {
+  position: relative; width: 100%; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; background: var(--white);
+}
+#three-canvas {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+}
+.hero-depth-circle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(139,69,19,0.12), transparent 70%);
+  pointer-events: none; z-index: 1;
+  animation: depthFloat 8s ease-in-out infinite alternate;
+}
+.hero-depth-circle:nth-child(1) { width: 600px; height: 600px; top: -10%; left: -15%; animation-delay: 0s; }
+.hero-depth-circle:nth-child(2) { width: 400px; height: 400px; top: 30%; right: -10%; animation-delay: -3s; }
+.hero-depth-circle:nth-child(3) { width: 300px; height: 300px; bottom: 5%; left: 30%; animation-delay: -6s; }
+@keyframes depthFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(20px,-20px) scale(1.1); } }
+
+.hero-content {
+  position: relative; z-index: 10;
+  text-align: center; padding: 0 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+.hero-h1-wrap { overflow: hidden; }
+.hero-h1 { display: flex; gap: 0.05em; justify-content: center; flex-wrap: wrap; }
+.hero-letter {
+  display: inline-block;
+  opacity: 0; transform: translateY(-80px);
+  animation: letterDrop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes letterDrop {
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-letter.pulse-idle {
+  animation-name: letterDrop, subtlePulse;
+  animation-duration: 0.6s, 5s;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-timing-function: cubic-bezier(0.22,1,0.36,1), ease-in-out;
+}
+@keyframes subtlePulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.006); }
+}
+
+.hero-tagline {
+  font-family: 'DM Sans', sans-serif; font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 500; color: var(--brown-mid);
+  min-height: 1.6em;
+  position: relative;
+}
+.hero-tagline::after {
+  content: '|'; margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+  color: var(--gold);
+}
+.hero-tagline.typing-done::after { animation: none; opacity: 0; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.btn-wa {
+  background: var(--brown-deep); color: var(--white);
+  padding: 14px 32px; border-radius: 100px; border: none; cursor: none;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative; overflow: visible;
+}
+.btn-wa:hover { background: var(--gold); transform: scale(1.04); box-shadow: 0 8px 28px rgba(201,135,58,0.35); }
+.btn-ghost {
+  background: transparent; color: var(--brown-deep);
+  padding: 13px 32px; border-radius: 100px; cursor: none;
+  border: 2px solid var(--brown-deep);
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.btn-ghost:hover { background: var(--brown-deep); color: var(--white); transform: scale(1.04); }
+
+.scroll-chevron {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  z-index: 10; animation: chevronBounce 2s ease-in-out infinite;
+  color: var(--brown-mid); font-size: 22px; opacity: 0.7;
+}
+@keyframes chevronBounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+.hero-hint {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  font-style: italic; color: var(--brown-mid); opacity: 0.6;
+  margin-top: -8px;
+}
+
+/* ============================================================
+   MARQUEE STRIP
+   ============================================================ */
+#marquee-strip {
+  background: var(--brown-deep); padding: 18px 0;
+  overflow: hidden; white-space: nowrap;
+}
+.marquee-track {
+  display: inline-block;
+  animation: marqueeScroll 40s linear infinite;
+}
+#marquee-strip:hover .marquee-track { animation-play-state: paused; }
+.marquee-track span {
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--white); padding: 0 16px;
+}
+@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ============================================================
+   WAVE DIVIDER
+   ============================================================ */
+.wave-divider { display: block; width: 100%; overflow: hidden; line-height: 0; }
+.wave-divider svg { display: block; width: 100%; }
+.wave-path { animation: waveMorph 6s ease-in-out infinite alternate; }
+@keyframes waveMorph {
+  0% { d: path("M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 C1400,100 1600,20 1800,60 L1800,120 L0,120 Z"); }
+  100% { d: path("M0,80 C200,20 400,100 600,50 C800,10 1000,90 1200,40 C1400,10 1600,80 1800,50 L1800,120 L0,120 Z"); }
+}
+
+/* ============================================================
+   ABOUT / STORY SECTION
+   ============================================================ */
+#about {
+  background: var(--off-white);
+  padding: 120px 48px;
+  position: relative; overflow: hidden;
+}
+.about-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+}
+.about-left .section-label { color: var(--gold); margin-bottom: 20px; display: block; }
+.about-left h2 { color: var(--brown-deep); margin-bottom: 40px; }
+.about-pullquote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 52px); font-weight: 700;
+  color: var(--brown-deep); line-height: 1.2;
+  border-left: 4px solid var(--gold); padding-left: 24px;
+  margin: 0;
+}
+.about-right { padding-top: 40px; }
+.about-right p { color: var(--brown-mid); margin-bottom: 20px; font-size: 17px; }
+.about-right p:last-child { margin-bottom: 0; }
+
+/* Floating particles */
+.particle {
+  position: absolute; border-radius: 50%;
+  background: var(--cream); opacity: 0;
+  pointer-events: none;
+  animation: particleFloat linear infinite;
+}
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-120px) rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  #about { padding: 80px 24px; }
+  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ============================================================
+   MENU SECTION
+   ============================================================ */
+#menu {
+  background: var(--charcoal);
+  padding: 120px 0 80px;
+  position: relative; overflow: hidden;
+}
+.menu-header {
+  text-align: center; padding: 0 48px; margin-bottom: 60px;
+}
+.menu-header .section-label { color: var(--gold); display: block; margin-bottom: 16px; }
+.menu-header h2 { color: var(--white); margin-bottom: 16px; }
+.menu-header .menu-subheading {
+  font-family: 'DM Sans', sans-serif; font-size: 18px;
+  color: var(--gold); font-style: italic;
+}
+
+/* Carousel */
+.carousel-wrapper { position: relative; }
+.menu-track {
+  display: flex;
+  overflow-x: scroll; scroll-snap-type: x mandatory;
+  gap: 24px; padding: 20px 48px 40px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+.menu-track:active { cursor: grabbing; }
+.menu-track::-webkit-scrollbar { display: none; }
+
+.menu-card {
+  flex-shrink: 0;
+  width: clamp(260px, 80vw, 320px);
+  scroll-snap-align: start;
+  border-radius: 20px;
+  padding: 32px 24px 28px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  will-change: transform;
+}
+.menu-card-golden { background: linear-gradient(160deg, #2A1500, #3D2000); }
+.menu-card-dark { background: linear-gradient(160deg, #0D0D0D, #1A0A00); }
+.menu-card-tea { background: linear-gradient(160deg, #1A0F00, #2A1500); }
+
+.card-drip-strip {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, var(--gold), var(--brown-mid), var(--gold));
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.4s ease;
+}
+.menu-card:hover .card-drip-strip { clip-path: inset(0 0% 0 0); }
+
+.fun-badge {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--brown-deep); color: var(--cream);
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 5px 10px; border-radius: 100px;
+  transform: rotate(-12deg);
+  transition: transform 0.2s ease;
+}
+.menu-card:hover .fun-badge { animation: badgeWobble 0.4s ease; }
+@keyframes badgeWobble {
+  0% { transform: rotate(-12deg); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(-16deg); }
+  100% { transform: rotate(-12deg); }
+}
+
+/* CSS BUN VISUALS */
+.bun-visual { width: 120px; height: 100px; margin: 0 auto 24px; position: relative; }
+
+/* Golden Bun (dome + fill + base) */
+.bun-dome-golden {
+  width: 120px; height: 60px;
+  background: linear-gradient(160deg, #E8A855, #A05A20);
+  border-radius: 70px 70px 0 0;
+  position: absolute; top: 0; left: 0; z-index: 2;
+  box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2), inset 4px 4px 12px rgba(255,220,140,0.3);
+}
+.bun-fill-butter {
+  width: 120px; height: 12px;
+  background: #F5F0E8;
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+.bun-fill-jam-top {
+  width: 120px; height: 6px;
+  background: #C0392B;
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+.bun-fill-jam-bottom {
+  width: 120px; height: 6px;
+  background: #F5F0E8;
+  position: absolute; top: 62px; left: 0; z-index: 3;
+}
+.bun-base-golden {
+  width: 114px; height: 36px;
+  background: linear-gradient(180deg, #C47A2A, #8B4513);
+  border-radius: 0 0 60px 60px;
+  position: absolute; bottom: 0; left: 3px; z-index: 1;
+}
+
+/* Charcoal Bun */
+.bun-dome-dark {
+  width: 120px; height: 60px;
+  background: radial-gradient(ellipse at 35% 35%, #2D2D2D, #0D0D0D);
+  border-radius: 70px 70px 0 0;
+  position: absolute; top: 0; left: 0; z-index: 2;
+  box-shadow: inset -6px -6px 16px rgba(0,0,0,0.5), inset 3px 3px 10px rgba(80,80,80,0.2);
+}
+.sesame-seed {
+  position: absolute; border-radius: 50%;
+  background: #D4A85C; z-index: 4;
+}
+.bun-fill-oreo {
+  width: 120px; height: 14px;
+  background: #FFFFFF;
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+.bun-fill-oreo::after {
+  content: ''; position: absolute;
+  bottom: -18px; left: 20px;
+  width: 16px; height: 20px;
+  background: #FFFFFF;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+.bun-fill-choco {
+  width: 120px; height: 14px;
+  background: linear-gradient(180deg, #3D1A00, #2A0E00);
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+.bun-fill-choco::after {
+  content: ''; position: absolute;
+  bottom: -22px; left: 30px;
+  width: 20px; height: 24px;
+  background: #5C2A0A;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+}
+.bun-base-dark {
+  width: 114px; height: 36px;
+  background: linear-gradient(180deg, #1A1A1A, #0D0D0D);
+  border-radius: 0 0 60px 60px;
+  position: absolute; bottom: 0; left: 3px; z-index: 1;
+}
+
+/* Boost/Horlicks fill */
+.bun-fill-boost {
+  width: 120px; height: 12px;
+  background: linear-gradient(180deg, #6B3A1F, #4A2210);
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+
+/* Tea Card */
+.tea-visual { width: 80px; height: 100px; margin: 0 auto 24px; position: relative; }
+.tea-cup {
+  width: 70px; height: 60px;
+  background: linear-gradient(180deg, #C47A2A, #8B3A0A);
+  border-radius: 4px 4px 12px 12px;
+  position: absolute; bottom: 0; left: 5px;
+}
+.tea-cup::before {
+  content: ''; position: absolute;
+  right: -14px; top: 8px;
+  width: 14px; height: 24px;
+  border: 3px solid #A05A20;
+  border-left: none; border-radius: 0 12px 12px 0;
+}
+.tea-steam-particle {
+  position: absolute; width: 6px; height: 6px;
+  background: rgba(255,255,255,0.5); border-radius: 50%;
+  animation: steamRise 2s ease-out infinite;
+  opacity: 0;
+}
+.tea-steam-particle:nth-child(1) { left: 18px; bottom: 64px; animation-delay: 0s; }
+.tea-steam-particle:nth-child(2) { left: 30px; bottom: 64px; animation-delay: 0.3s; }
+.tea-steam-particle:nth-child(3) { left: 42px; bottom: 64px; animation-delay: 0.6s; }
+.tea-steam-particle:nth-child(4) { left: 24px; bottom: 64px; animation-delay: 0.9s; }
+.tea-steam-particle:nth-child(5) { left: 36px; bottom: 64px; animation-delay: 1.2s; }
+@keyframes steamRise {
+  0% { opacity: 0; transform: translateY(0) scaleX(1); }
+  30% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-30px) scaleX(1.5); }
+}
+.tea-card-inner.steaming-fast .tea-steam-particle { animation-duration: 1s; }
+
+.card-name {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+  color: var(--white); margin-bottom: 10px;
+}
+.card-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: rgba(255,255,255,0.65); line-height: 1.7;
+}
+
+/* Carousel nav */
+.carousel-nav { display: flex; justify-content: center; gap: 16px; margin-top: 12px; padding: 0 48px; }
+.carousel-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--white); font-size: 18px; cursor: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease;
+}
+.carousel-btn:hover { background: var(--gold); border-color: var(--gold); }
+
+/* Progress bar */
+.carousel-progress-wrap { padding: 20px 48px 0; }
+.carousel-progress-bg { height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+.carousel-progress-fill { height: 2px; background: var(--cream); border-radius: 2px; width: 0%; transition: width 0.2s ease; }
+
+/* Dynamic caption */
+#menu-caption {
+  text-align: center; padding: 24px 48px 0;
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  font-style: italic; color: var(--gold);
+  min-height: 40px;
+  transition: opacity 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .menu-track { padding: 20px 24px 40px; }
+  .carousel-nav { padding: 0 24px; }
+  .carousel-progress-wrap { padding: 20px 24px 0; }
+  #menu-caption { padding: 24px 24px 0; }
+}
+
+/* ============================================================
+   FOUNDERS SECTION
+   ============================================================ */
+#founders {
+  background: var(--cream);
+  padding: 120px 48px;
+  position: relative;
+}
+.founders-inner { max-width: 1100px; margin: 0 auto; }
+.founders-header { text-align: center; margin-bottom: 80px; }
+.founders-header .section-label { color: var(--gold); display: block; margin-bottom: 16px; }
+.founders-header h2 { color: var(--brown-deep); }
+
+.founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 80px; }
+.founder-card {
+  background: var(--white); border-radius: 24px;
+  padding: 48px 36px; text-align: center;
+  box-shadow: 0 4px 40px rgba(59,31,10,0.08);
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.25,1,0.5,1), transform 0.7s cubic-bezier(0.25,1,0.5,1);
+}
+.founder-card.reveal-left { transform: translateX(-80px); }
+.founder-card.reveal-right { transform: translateX(80px); }
+.founder-card.visible { opacity: 1; transform: translateX(0); }
+
+.founder-photo-wrap {
+  position: relative; width: 160px; height: 160px;
+  margin: 0 auto 28px; cursor: none;
+}
+.founder-photo-placeholder {
+  width: 160px; height: 160px; border-radius: 50%;
+  border: 3px dashed var(--brown-mid);
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  animation: founderWiggle 3s ease-in-out infinite alternate;
+  transition: border-style 0.2s ease;
+}
+.founder-photo-placeholder img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+}
+.founder-photo-placeholder:hover { animation-play-state: paused; border-style: solid; }
+.founder-photo-placeholder .photo-initials {
+  font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900;
+  color: var(--brown-mid); pointer-events: none;
+}
+@keyframes founderWiggle {
+  0% { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+.photo-tooltip {
+  position: absolute; bottom: -36px; left: 50%; transform: translateX(-50%);
+  background: var(--brown-deep); color: var(--cream);
+  font-size: 12px; padding: 5px 12px; border-radius: 100px;
+  white-space: nowrap; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+.founder-photo-wrap:hover .photo-tooltip { opacity: 1; }
+
+.founder-name {
+  font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700;
+  color: var(--brown-deep); margin-bottom: 8px;
+}
+.founder-title {
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  color: var(--gold); font-style: italic; margin-bottom: 20px;
+}
+.founder-bio { font-size: 15px; color: var(--brown-mid); line-height: 1.8; }
+
+/* Stats */
+.founders-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+  text-align: center;
+}
+.stat-item {}
+.stat-number {
+  font-family: 'DM Mono', monospace; font-size: clamp(60px, 8vw, 100px);
+  font-weight: 500; color: var(--brown-deep); line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--brown-mid);
+  margin-top: 8px; display: block;
+}
+
+@media (max-width: 768px) {
+  #founders { padding: 80px 24px; }
+  .founders-grid { grid-template-columns: 1fr; gap: 32px; }
+  .founders-stats { grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .stat-number { font-size: 48px; }
+}
+
+/* ============================================================
+   CONTACT / FIND US
+   ============================================================ */
+#contact {
+  background: var(--brown-deep);
+  padding: 120px 48px;
+  position: relative;
+}
+.contact-inner { max-width: 1100px; margin: 0 auto; }
+.contact-header { text-align: center; margin-bottom: 72px; }
+.contact-header .section-label { color: var(--gold); display: block; margin-bottom: 16px; }
+.contact-header h2 { color: var(--white); }
+
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-left { display: flex; flex-direction: column; gap: 24px; }
+.contact-left p { color: var(--cream); font-size: 16px; line-height: 1.8; opacity: 0.8; }
+
+.btn-wa-large {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--green-wa); color: var(--white);
+  padding: 16px 32px; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-wa-large:hover { transform: scale(1.04); box-shadow: 0 8px 28px rgba(37,211,102,0.35); }
+
+.btn-instagram {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: transparent; color: var(--cream);
+  padding: 15px 32px; border-radius: 100px;
+  border: 2px solid rgba(245,236,215,0.3);
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.btn-instagram:hover { border-color: var(--cream); background: rgba(245,236,215,0.08); transform: scale(1.04); }
+
+.maps-hint {
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  color: rgba(245,236,215,0.5); letter-spacing: 0.05em;
+}
+
+.contact-map iframe {
+  width: 100%; height: 380px; border-radius: 12px; border: none;
+  filter: sepia(10%) saturate(80%) brightness(90%);
+}
+
+@media (max-width: 768px) {
+  #contact { padding: 80px 24px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--brown-deep);
+  border-top: 1px solid rgba(245,236,215,0.1);
+  padding: 60px 48px 40px;
+  text-align: center;
+}
+.footer-logo { margin-bottom: 16px; }
+#logo-text-footer {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 900;
+  color: var(--white); letter-spacing: 3px;
+}
+.footer-tagline {
+  font-family: 'DM Sans', sans-serif; font-size: 16px;
+  color: rgba(245,236,215,0.6); margin-bottom: 28px;
+}
+.footer-icons { display: flex; gap: 20px; justify-content: center; margin-bottom: 32px; }
+.footer-icon-link {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(245,236,215,0.2);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  color: var(--white); text-decoration: none;
+}
+.footer-icon-link:hover { background: rgba(245,236,215,0.1); border-color: rgba(245,236,215,0.4); }
+.footer-copyright {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: rgba(245,236,215,0.35);
+}
+
+/* ============================================================
+   FLOATING WHATSAPP FAB
+   ============================================================ */
+#wa-fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 600;
+  width: 58px; height: 58px; border-radius: 50%;
+  background: var(--green-wa);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; color: var(--white);
+  transform: translateX(100px); opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  animation: fabPulse 2s ease-in-out infinite;
+}
+#wa-fab.visible { transform: translateX(0); opacity: 1; }
+@keyframes fabPulse {
+  0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 4px 40px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.1); }
+}
+@media (max-width: 768px) { #wa-fab { transform: translateX(0); opacity: 1; } }
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+#toast {
+  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--brown-deep); color: var(--cream);
+  padding: 14px 28px; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  z-index: 10000; opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap; pointer-events: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+.confetti-piece {
+  position: fixed; pointer-events: none; z-index: 9998;
+  animation: confettiFly 0.8s ease-out forwards;
+}
+@keyframes confettiFly {
+  0% { opacity: 1; transform: translate(0,0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5); }
+}
+
+/* ============================================================
+   SECTION REVEAL ANIMATIONS
+   ============================================================ */
+.reveal-heading {
+  opacity: 0; transform: translateY(50px);
+  transition: opacity 0.6s cubic-bezier(0.25,1,0.5,1), transform 0.6s cubic-bezier(0.25,1,0.5,1);
+}
+.reveal-heading.visible { opacity: 1; transform: translateY(0); }
+.reveal-heading.colour-flash { animation: headingFlash 0.6s ease once; }
+@keyframes headingFlash {
+  0% { color: var(--brown-deep); }
+  50% { color: var(--gold); }
+  100% { color: var(--brown-deep); }
+}
+.reveal-card {
+  opacity: 0; transform: translateY(30px) scale(0.97);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.reveal-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+/* ============================================================
+   CONTACT COLUMNS SLIDE
+   ============================================================ */
+.slide-left { opacity: 0; transform: translateX(-60px); transition: opacity 0.6s cubic-bezier(0.25,1,0.5,1), transform 0.6s cubic-bezier(0.25,1,0.5,1); }
+.slide-right { opacity: 0; transform: translateX(60px); transition: opacity 0.6s cubic-bezier(0.25,1,0.5,1), transform 0.6s cubic-bezier(0.25,1,0.5,1); }
+.slide-left.visible, .slide-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .hero-tagline::after { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress Thread -->
+<div id="scroll-progress"></div>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+
+<!-- Toast Notification -->
+<div id="toast" role="alert" aria-live="polite"></div>
+
+<!-- Floating WhatsApp FAB -->
+<a id="wa-fab" href="https://wa.me/919498070073" aria-label="Order on WhatsApp" class="hoverable" target="_blank" rel="noopener">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<header>
+  <nav id="main-nav" role="navigation" aria-label="Main navigation">
+    <!-- EDIT: Logo container -->
+    <div id="logo-container" class="hoverable" role="button" tabindex="0" aria-label="Bun Fit home">
+      <img id="shop-logo" src="logo.png" alt="Bun Fit Logo"
+           onerror="this.style.display='none';document.getElementById('logo-text').style.display='block'">
+      <span id="logo-text" style="display:none; font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:#3B1F0A; letter-spacing:3px;">BUN FIT</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#menu" class="hoverable">Menu</a></li>
+      <li><a href="#about" class="hoverable">Our Story</a></li>
+      <li><a href="#contact" class="hoverable">Find Us</a></li>
+      <li><a href="https://wa.me/919498070073" class="nav-cta hoverable" target="_blank" rel="noopener" aria-label="Order on WhatsApp">Order Now</a></li>
+    </ul>
+    <!-- Mobile hamburger -->
+    <input type="checkbox" id="hamburger-checkbox" class="hamburger-checkbox" aria-hidden="true">
+    <label for="hamburger-checkbox" class="hamburger-label hoverable" aria-label="Toggle mobile menu">
+      <span></span><span></span><span></span>
+    </label>
+    <!-- Mobile menu (CSS-only toggle) -->
+    <div class="mobile-menu" role="dialog" aria-label="Mobile navigation">
+      <a href="#menu" onclick="document.getElementById('hamburger-checkbox').checked=false">Menu</a>
+      <a href="#about" onclick="document.getElementById('hamburger-checkbox').checked=false">Our Story</a>
+      <a href="#contact" onclick="document.getElementById('hamburger-checkbox').checked=false">Find Us</a>
+      <a href="https://wa.me/919498070073" target="_blank" rel="noopener">Order Now</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section id="hero" data-bg="#FFFFFF">
+  <!-- Three.js Canvas -->
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+
+  <!-- Depth circles -->
+  <div class="hero-depth-circle" aria-hidden="true"></div>
+  <div class="hero-depth-circle" aria-hidden="true"></div>
+  <div class="hero-depth-circle" aria-hidden="true"></div>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <div class="hero-h1-wrap">
+      <!-- EDIT: Shop Name -->
+      <h1 class="hero-h1" aria-label="Bun Fit">
+        <span class="hero-letter" style="animation-delay:0ms">B</span>
+        <span class="hero-letter" style="animation-delay:90ms">U</span>
+        <span class="hero-letter" style="animation-delay:180ms">N</span>
+        <span class="hero-letter" style="animation-delay:270ms; margin-left:0.2em"> </span>
+        <span class="hero-letter" style="animation-delay:360ms">F</span>
+        <span class="hero-letter" style="animation-delay:450ms">I</span>
+        <span class="hero-letter" style="animation-delay:540ms">T</span>
+      </h1>
+    </div>
+    <!-- EDIT: Tagline -->
+    <p class="hero-tagline" id="hero-tagline" aria-label="Chennai's boldest bun. Zero compromise."></p>
+    <div class="hero-ctas">
+      <!-- EDIT: WhatsApp number -->
+      <button class="btn-wa hoverable" id="wa-hero-btn" aria-label="Order on WhatsApp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Order on WhatsApp
+      </button>
+      <a href="#menu" class="btn-ghost hoverable">See the Menu ↓</a>
+    </div>
+    <!-- EDIT: Hint text -->
+    <p class="hero-hint" id="hero-hint">Click the buns ↑</p>
+  </div>
+
+  <!-- Scroll chevron -->
+  <div class="scroll-chevron" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     MARQUEE STRIP
+     ============================================================ -->
+<div id="marquee-strip" aria-label="Menu items" role="marquee">
+  <div class="marquee-track" aria-hidden="true">
+    <!-- EDIT: Marquee items (duplicated for seamless loop) -->
+    <span>Butter Bun</span><span>·</span>
+    <span>Bun Butter Jam</span><span>·</span>
+    <span>Oreo Bun</span><span>·</span>
+    <span>Dark Choco Bun</span><span>·</span>
+    <span>Boost Bun</span><span>·</span>
+    <span>Horlicks Bun</span><span>·</span>
+    <span>Hot Tea</span><span>·</span>
+    <span>Bun Fit, Chennai</span><span>·</span>
+    <span>Butter Bun</span><span>·</span>
+    <span>Bun Butter Jam</span><span>·</span>
+    <span>Oreo Bun</span><span>·</span>
+    <span>Dark Choco Bun</span><span>·</span>
+    <span>Boost Bun</span><span>·</span>
+    <span>Horlicks Bun</span><span>·</span>
+    <span>Hot Tea</span><span>·</span>
+    <span>Bun Fit, Chennai</span><span>·</span>
+  </div>
+</div>
+
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true" style="background:var(--off-white);">
+  <svg viewBox="0 0 1800 120" preserveAspectRatio="none" height="80" xmlns="http://www.w3.org/2000/svg">
+    <path class="wave-path" d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 C1400,100 1600,20 1800,60 L1800,0 L0,0 Z" fill="#3B1F0A"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     ABOUT / STORY SECTION
+     ============================================================ -->
+<section id="about" data-bg="#F8F5F0" aria-labelledby="about-heading">
+  <div class="about-inner">
+    <div class="about-left">
+      <span class="label section-label">Our Story</span>
+      <!-- EDIT: About heading -->
+      <h2 id="about-heading" class="reveal-heading">Two guys. One obsession. Six buns.</h2>
+      <!-- EDIT: Pull quote -->
+      <blockquote class="about-pullquote reveal-heading" style="transition-delay:0.15s">
+        "Redefining the humble bun, one bold filling at a time."
+      </blockquote>
+    </div>
+    <div class="about-right">
+      <!-- EDIT: Story paragraphs -->
+      <p class="reveal-heading" style="transition-delay:0.1s">It started the way most great things do — with hunger, stubbornness, and an unwillingness to settle for ordinary. Prakash and Kaviarasu weren't looking to open a café. They were looking for a bun worth eating. When they couldn't find one, they made it themselves.</p>
+      <p class="reveal-heading" style="transition-delay:0.2s">Bun Fit was born in Chennai — a city that knows its food and forgives nothing. The classic Butter Bun was the beginning: simple, pillowy, honest. But Prakash's mind doesn't stay still for long. One experiment led to another, and soon the menu had charcoal buns filled with white chocolate that overflowed onto your fingers, dark chocolate creations so glossy they looked sculpted, and nostalgia-loaded Boost and Horlicks fillings that made grown adults reach for their phones to text their moms.</p>
+      <p class="reveal-heading" style="transition-delay:0.3s">Kaviarasu made sure every bun that left the shop was worth the wait. No shortcuts. No compromises. Just two guys from Chennai who decided that the humble bun deserved better — and proved it one order at a time.</p>
+    </div>
+  </div>
+  <!-- Floating particles (generated by JS) -->
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true" style="background:var(--charcoal);">
+  <svg viewBox="0 0 1800 120" preserveAspectRatio="none" height="80" xmlns="http://www.w3.org/2000/svg">
+    <path class="wave-path" d="M0,80 C200,20 400,100 600,50 C800,10 1000,90 1200,40 C1400,10 1600,80 1800,50 L1800,0 L0,0 Z" fill="#F8F5F0"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     MENU SECTION
+     ============================================================ -->
+<section id="menu" data-bg="#1A1A1A" aria-labelledby="menu-heading">
+  <div class="menu-header">
+    <span class="label section-label">What We Make</span>
+    <!-- EDIT: Menu heading -->
+    <h2 id="menu-heading" class="reveal-heading" style="color:white">The Menu</h2>
+    <!-- EDIT: Menu subheading -->
+    <p class="menu-subheading reveal-heading" style="transition-delay:0.1s">Six reasons to visit. One reason to come back.</p>
+  </div>
+
+  <div class="carousel-wrapper">
+    <div class="menu-track" id="menu-track" role="list">
+
+      <!-- CARD 1: BUTTER BUN -->
+      <article class="menu-card menu-card-golden reveal-card hoverable" role="listitem" data-caption="The one that started everything." tabindex="0" aria-label="Butter Bun">
+        <div class="bun-visual" aria-hidden="true">
+          <div class="bun-dome-golden"></div>
+          <div class="bun-fill-butter"></div>
+          <div class="bun-base-golden"></div>
+        </div>
+        <h3 class="card-name">Butter Bun</h3>
+        <!-- EDIT: Card description -->
+        <p class="card-desc">Classic, comforting, pillowy. The one that started it all.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+      <!-- CARD 2: BUN BUTTER JAM -->
+      <article class="menu-card menu-card-golden reveal-card hoverable" role="listitem" data-caption="Butter meets jam. The internet loves it." tabindex="0" aria-label="Bun Butter Jam">
+        <div class="bun-visual" aria-hidden="true">
+          <div class="bun-dome-golden"></div>
+          <div class="bun-fill-jam-top"></div>
+          <div class="bun-fill-jam-bottom"></div>
+          <div class="bun-base-golden"></div>
+        </div>
+        <h3 class="card-name">Bun Butter Jam</h3>
+        <!-- EDIT: Card description -->
+        <p class="card-desc">Butter meets jam. Rich cream, sweet-tart fruit. A sunrise in bread form.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+      <!-- CARD 3: OREO BUN -->
+      <article class="menu-card menu-card-dark reveal-card hoverable" role="listitem" data-caption="Warning: highly photogenic. Don't blame us." tabindex="0" aria-label="Oreo Bun">
+        <div class="fun-badge" aria-label="Most Instagrammed">📸 Most Instagrammed</div>
+        <div class="bun-visual" aria-hidden="true" style="position:relative">
+          <div class="bun-dome-dark" id="oreo-dome">
+            <!-- Sesame seeds added by JS -->
+          </div>
+          <div class="bun-fill-oreo"></div>
+          <div class="bun-base-dark"></div>
+        </div>
+        <h3 class="card-name">Oreo Bun</h3>
+        <!-- EDIT: Card description -->
+        <p class="card-desc">Jet-black charcoal bun. White chocolate that oozes and overflows. Shocking. Photogenic.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+      <!-- CARD 4: DARK CHOCO BUN -->
+      <article class="menu-card menu-card-dark reveal-card hoverable" role="listitem" data-caption="Order this when you mean business." tabindex="0" aria-label="Dark Choco Bun">
+        <div class="fun-badge" aria-label="The Showstopper">🍫 The Showstopper</div>
+        <div class="bun-visual" aria-hidden="true" style="position:relative">
+          <div class="bun-dome-dark" id="choco-dome">
+            <!-- Sesame seeds added by JS -->
+          </div>
+          <div class="bun-fill-choco"></div>
+          <div class="bun-base-dark"></div>
+        </div>
+        <h3 class="card-name">Dark Choco Bun</h3>
+        <!-- EDIT: Card description -->
+        <p class="card-desc">Dark chocolate. Rich. Glossy. Molten-lava level intensity. The one you order to impress yourself.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+      <!-- CARD 5: BOOST BUN -->
+      <article class="menu-card menu-card-golden reveal-card hoverable" role="listitem" data-caption="Your childhood. In bun form." tabindex="0" aria-label="Boost Bun">
+        <div class="fun-badge" aria-label="Nostalgia Level Max">🕹️ Nostalgia Level: Max</div>
+        <div class="bun-visual" aria-hidden="true">
+          <div class="bun-dome-golden"></div>
+          <div class="bun-fill-boost"></div>
+          <div class="bun-base-golden"></div>
+        </div>
+        <h3 class="card-name">Boost / Horlicks Bun</h3>
+        <!-- EDIT: Card description -->
+        <p class="card-desc">Warm malted filling. Boost or Horlicks. Your childhood, delivered in bun form.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+      <!-- CARD 6: (sixth bun visual placeholder - Horlicks variant shown as golden) -->
+      <article class="menu-card menu-card-golden reveal-card hoverable" role="listitem" data-caption="Classic South Indian chai — always, always get the tea." tabindex="0" aria-label="Horlicks Bun">
+        <div class="bun-visual" aria-hidden="true">
+          <div class="bun-dome-golden" style="background:linear-gradient(160deg,#C4A882,#8B7355)"></div>
+          <div style="width:120px;height:12px;background:linear-gradient(180deg,#C4A882,#A08060);position:absolute;top:56px;left:0;z-index:3;"></div>
+          <div class="bun-base-golden" style="background:linear-gradient(180deg,#A08060,#7B5535)"></div>
+        </div>
+        <h3 class="card-name">Horlicks Bun</h3>
+        <p class="card-desc">Creamy malted Horlicks filling, sweet and familiar. The bun that hugs back.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+      <!-- CARD 7: TEA -->
+      <article class="menu-card menu-card-tea reveal-card hoverable" role="listitem" data-caption="Never skip the tea. Never." tabindex="0" aria-label="Hot Tea">
+        <div class="fun-badge" aria-label="The Loyal Sidekick">☕ The Loyal Sidekick</div>
+        <div class="tea-visual" aria-hidden="true">
+          <div class="tea-card-inner" id="tea-card-inner">
+            <div class="tea-steam-particle"></div>
+            <div class="tea-steam-particle"></div>
+            <div class="tea-steam-particle"></div>
+            <div class="tea-steam-particle"></div>
+            <div class="tea-steam-particle"></div>
+            <div class="tea-cup"></div>
+          </div>
+        </div>
+        <h3 class="card-name">Hot Tea</h3>
+        <!-- EDIT: Card description -->
+        <p class="card-desc">Classic South Indian cutting chai. No bun visit is complete without it.</p>
+        <div class="card-drip-strip" aria-hidden="true"></div>
+      </article>
+
+    </div><!-- end menu-track -->
+
+    <!-- Carousel controls -->
+    <div class="carousel-nav">
+      <button class="carousel-btn hoverable" id="carousel-prev" aria-label="Previous menu item">←</button>
+      <button class="carousel-btn hoverable" id="carousel-next" aria-label="Next menu item">→</button>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="carousel-progress-wrap" aria-hidden="true">
+      <div class="carousel-progress-bg">
+        <div class="carousel-progress-fill" id="carousel-progress"></div>
+      </div>
+    </div>
+
+    <!-- Dynamic Caption -->
+    <p id="menu-caption" aria-live="polite">The one that started everything.</p>
+
+  </div><!-- end carousel-wrapper -->
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true" style="background:var(--cream);">
+  <svg viewBox="0 0 1800 120" preserveAspectRatio="none" height="80" xmlns="http://www.w3.org/2000/svg">
+    <path class="wave-path" d="M0,40 C300,100 600,0 900,60 C1200,110 1500,20 1800,70 L1800,0 L0,0 Z" fill="#1A1A1A"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     FOUNDERS SECTION
+     ============================================================ -->
+<section id="founders" data-bg="#F5ECD7" aria-labelledby="founders-heading">
+  <div class="founders-inner">
+    <div class="founders-header">
+      <span class="label section-label">The People Behind the Buns</span>
+      <!-- EDIT: Founders heading -->
+      <h2 id="founders-heading" class="reveal-heading">The Bun Brothers</h2>
+    </div>
+
+    <div class="founders-grid">
+
+      <!-- PRAKASH -->
+      <div class="founder-card reveal-left hoverable" id="founder-prakash">
+        <div class="founder-photo-wrap">
+          <div class="founder-photo-placeholder" id="prakash-photo" aria-label="Prakash's photo placeholder">
+            <!-- EDIT: Replace with actual photo: <img src="prakash.jpg" alt="Prakash"> -->
+            <span class="photo-initials" aria-hidden="true">P</span>
+          </div>
+          <div class="photo-tooltip" aria-hidden="true">📸 Photo coming soon!</div>
+        </div>
+        <!-- EDIT: Founder name -->
+        <h3 class="founder-name">Prakash</h3>
+        <!-- EDIT: Founder title -->
+        <p class="founder-title">Flavour Architect</p>
+        <!-- EDIT: Founder bio -->
+        <p class="founder-bio">Prakash believes a bun should never be boring. He's the one experimenting with charcoal, white chocolate, and every filling that makes you do a double-take before you even take a bite.</p>
+      </div>
+
+      <!-- KAVIARASU -->
+      <div class="founder-card reveal-right hoverable" id="founder-kavi">
+        <div class="founder-photo-wrap">
+          <div class="founder-photo-placeholder" id="kavi-photo" aria-label="Kaviarasu's photo placeholder">
+            <!-- EDIT: Replace with actual photo: <img src="kavi.jpg" alt="Kaviarasu"> -->
+            <span class="photo-initials" aria-hidden="true">K</span>
+          </div>
+          <div class="photo-tooltip" aria-hidden="true">📸 Photo coming soon!</div>
+        </div>
+        <!-- EDIT: Founder name -->
+        <h3 class="founder-name">Kaviarasu</h3>
+        <!-- EDIT: Founder title -->
+        <p class="founder-title">The Heart of the Shop</p>
+        <!-- EDIT: Founder bio -->
+        <p class="founder-bio">Kavi keeps Bun Fit running with pure passion and zero shortcuts. If you bake with obsession, the city finds you. Chennai found him.</p>
+      </div>
+
+    </div>
+
+    <!-- Stat Counters -->
+    <div class="founders-stats" id="founders-stats">
+      <div class="stat-item">
+        <span class="stat-number mono" id="stat-founders" data-target="2">0</span>
+        <!-- EDIT: Stat label -->
+        <span class="stat-label">Founders</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number mono" id="stat-flavours" data-target="6">0</span>
+        <!-- EDIT: Stat label -->
+        <span class="stat-label">Flavours</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number mono" id="stat-city" data-target="1">0</span>
+        <!-- EDIT: Stat label -->
+        <span class="stat-label">City</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true" style="background:var(--brown-deep);">
+  <svg viewBox="0 0 1800 120" preserveAspectRatio="none" height="80" xmlns="http://www.w3.org/2000/svg">
+    <path class="wave-path" d="M0,50 C400,110 800,10 1200,70 C1400,100 1600,30 1800,60 L1800,0 L0,0 Z" fill="#F5ECD7"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     CONTACT / FIND US SECTION
+     ============================================================ -->
+<section id="contact" data-bg="#3B1F0A" aria-labelledby="contact-heading">
+  <div class="contact-inner">
+    <div class="contact-header">
+      <span class="label section-label" style="color:var(--gold)">Visit Us</span>
+      <!-- EDIT: Contact heading -->
+      <h2 id="contact-heading" class="reveal-heading" style="color:white">Come Find Us in Chennai</h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-left slide-left">
+        <!-- EDIT: Contact copy -->
+        <p>We're open every day — come hungry. Whether you know exactly what you want or need to stare at the menu for five minutes, we'll wait.</p>
+
+        <!-- EDIT: WhatsApp link -->
+        <a href="https://wa.me/919498070073" class="btn-wa-large hoverable" id="wa-contact-btn" target="_blank" rel="noopener" aria-label="Order on WhatsApp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Chat on WhatsApp
+        </a>
+
+        <!-- EDIT: Instagram link -->
+        <a href="https://www.instagram.com/bunfit.in/" class="btn-instagram hoverable" target="_blank" rel="noopener" aria-label="Follow us on Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          Follow @bunfit.in
+        </a>
+
+        <p class="maps-hint">📍 We're on Google Maps — just search "Bun Fit Chennai"</p>
+      </div>
+
+      <div class="contact-map slide-right">
+        <!-- EDIT: Google Maps embed -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888!2d80.2582164!3d12.9871064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525ddfb4dbb855%3A0x89d34f1b7b4d5d59!2sBun%20Fit!5e0!3m2!1sen!2sin!4v1!5m2!1sen!2sin"
+          title="Bun Fit location on Google Maps"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="footer-logo">
+    <!-- Logo (same pattern as nav) -->
+    <div id="logo-container-footer" style="display:inline-flex;align-items:center;">
+      <img src="logo.png" alt="Bun Fit Logo"
+           onerror="this.style.display='none';document.getElementById('logo-text-footer').style.display='block'"
+           style="height:48px;width:auto;">
+      <span id="logo-text-footer" style="display:none; font-family:'Playfair Display',serif; font-size:26px; font-weight:900; color:#FFFFFF; letter-spacing:3px;">BUN FIT</span>
+    </div>
+  </div>
+  <!-- EDIT: Footer tagline -->
+  <p class="footer-tagline">Chennai's Boldest Bun.</p>
+  <div class="footer-icons">
+    <!-- EDIT: Instagram link -->
+    <a href="https://www.instagram.com/bunfit.in/" class="footer-icon-link hoverable" target="_blank" rel="noopener" aria-label="Follow Bun Fit on Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
+      </svg>
+    </a>
+    <!-- EDIT: WhatsApp link -->
+    <a href="https://wa.me/919498070073" class="footer-icon-link hoverable" target="_blank" rel="noopener" aria-label="Contact Bun Fit on WhatsApp">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+    </a>
+  </div>
+  <!-- EDIT: Copyright -->
+  <p class="footer-copyright">© 2026 Bun Fit — Made with 🤎 by Prakash &amp; Kaviarasu, Chennai.</p>
+</footer>
+
+<!-- ============================================================
+     THREE.JS
+     ============================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ============================================================
+  // REDUCED MOTION DETECTION
+  // ============================================================
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    document.body.classList.add('reduced-motion');
+  }
+  const isMobile = window.innerWidth < 768;
+
+  // ============================================================
+  // CUSTOM CURSOR
+  // ============================================================
+  if (!isMobile) {
+    const cursor = document.getElementById('cursor');
+    let cursorX = 0, cursorY = 0, mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+    });
+
+    const hoverables = document.querySelectorAll('.hoverable, a, button, [role="button"]');
+    hoverables.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+    });
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.12;
+      cursorY += (mouseY - cursorY) * 0.12;
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  }
+
+  // ============================================================
+  // SCROLL PROGRESS THREAD
+  // ============================================================
+  const scrollProgress = document.getElementById('scroll-progress');
+  function updateScrollProgress() {
+    const total = document.body.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+    scrollProgress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+  // ============================================================
+  // NAV SCROLL BEHAVIOUR
+  // ============================================================
+  const nav = document.getElementById('main-nav');
+  function updateNav() {
+    if (window.scrollY > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+
+  // ============================================================
+  // MOBILE HINT TEXT
+  // ============================================================
+  if (isMobile) {
+    const hint = document.getElementById('hero-hint');
+    if (hint) hint.textContent = 'Tap the buns ↑';
+  }
+
+  // ============================================================
+  // TYPEWRITER TAGLINE
+  // ============================================================
+  const taglineEl = document.getElementById('hero-tagline');
+  const taglineText = "Chennai's boldest bun. Zero compromise."; // EDIT: Tagline
+  let taglineIdx = 0;
+
+  function startTypewriter() {
+    if (prefersReduced) {
+      taglineEl.textContent = taglineText;
+      taglineEl.classList.add('typing-done');
+      return;
+    }
+    const interval = setInterval(() => {
+      taglineEl.textContent = taglineText.slice(0, ++taglineIdx);
+      if (taglineIdx >= taglineText.length) {
+        clearInterval(interval);
+        setTimeout(() => taglineEl.classList.add('typing-done'), 1200);
+      }
+    }, 55);
+  }
+
+  // Start typewriter after heading animation
+  setTimeout(startTypewriter, 700);
+
+  // Trigger idle pulse on letters after drop
+  setTimeout(() => {
+    document.querySelectorAll('.hero-letter').forEach(l => {
+      if (!prefersReduced) l.classList.add('pulse-idle');
+    });
+  }, 1400);
+
+  // ============================================================
+  // SCROLL-DRIVEN BG TRANSITIONS
+  // ============================================================
+  const sections = document.querySelectorAll('section[data-bg]');
+  const sectionBgs = {
+    'hero': '#FFFFFF',
+    'about': '#F8F5F0',
+    'menu': '#1A1A1A',
+    'founders': '#F5ECD7',
+    'contact': '#3B1F0A'
+  };
+
+  function updateBodyBg() {
+    const scrollMid = window.scrollY + window.innerHeight * 0.4;
+    let currentBg = '#FFFFFF';
+    sections.forEach(sec => {
+      if (sec.offsetTop <= scrollMid) {
+        currentBg = sec.dataset.bg || currentBg;
+      }
+    });
+    document.body.style.backgroundColor = currentBg;
+  }
+  window.addEventListener('scroll', updateBodyBg, { passive: true });
+
+  // ============================================================
+  // WHATSAPP FAB VISIBILITY
+  // ============================================================
+  const waFab = document.getElementById('wa-fab');
+  function updateFab() {
+    if (window.scrollY > 200) {
+      waFab.classList.add('visible');
+    } else if (!isMobile) {
+      waFab.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', updateFab, { passive: true });
+  if (isMobile) waFab.classList.add('visible');
+
+  // ============================================================
+  // CONFETTI BURST
+  // ============================================================
+  function fireConfetti(originEl) {
+    if (prefersReduced) return;
+    const rect = originEl.getBoundingClientRect();
+    const ox = rect.left + rect.width / 2;
+    const oy = rect.top + rect.height / 2;
+    const colors = ['#3B1F0A', '#F5ECD7', '#C9873A', '#FFFFFF', '#7B4A2D'];
+    for (let i = 0; i < 40; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const size = 4 + Math.random() * 4;
+      const angle = Math.random() * 360;
+      const dist = 60 + Math.random() * 120;
+      const tx = Math.cos(angle * Math.PI / 180) * dist;
+      const ty = Math.sin(angle * Math.PI / 180) * dist - 40;
+      const rot = (Math.random() - 0.5) * 720;
+      const isCircle = Math.random() > 0.5;
+      piece.style.cssText = `
+        left:${ox}px; top:${oy}px;
+        width:${size}px; height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${isCircle ? '50%' : '2px'};
+        --tx:${tx}px; --ty:${ty}px; --rot:${rot}deg;
+      `;
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 900);
+    }
+  }
+
+  // Hero WA button
+  const waHeroBtn = document.getElementById('wa-hero-btn');
+  if (waHeroBtn) {
+    waHeroBtn.addEventListener('click', (e) => {
+      fireConfetti(waHeroBtn);
+      setTimeout(() => {
+        window.open('https://wa.me/919498070073', '_blank', 'noopener');
+      }, 400);
+    });
+  }
+
+  // Contact WA button
+  const waContactBtn = document.getElementById('wa-contact-btn');
+  if (waContactBtn) {
+    waContactBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      fireConfetti(waContactBtn);
+      setTimeout(() => {
+        window.open('https://wa.me/919498070073', '_blank', 'noopener');
+      }, 400);
+    });
+  }
+
+  // FAB confetti
+  if (waFab) {
+    waFab.addEventListener('click', (e) => {
+      e.preventDefault();
+      fireConfetti(waFab);
+      setTimeout(() => {
+        window.open('https://wa.me/919498070073', '_blank', 'noopener');
+      }, 400);
+    });
+  }
+
+  // ============================================================
+  // LOGO EASTER EGG
+  // ============================================================
+  const logoContainer = document.getElementById('logo-container');
+  let logoClickCount = 0, logoClickTimer = null;
+  let easterEggTriggered = false;
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  if (logoContainer) {
+    logoContainer.addEventListener('click', () => {
+      if (easterEggTriggered) return;
+      logoClickCount++;
+      if (logoClickTimer) clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 2000);
+      if (logoClickCount >= 5) {
+        easterEggTriggered = true;
+        logoClickCount = 0;
+        showToast('🎉 You found the secret — come visit us and mention this!');
+      }
+    });
+  }
+
+  // ============================================================
+  // SESAME SEEDS on dark bun cards
+  // ============================================================
+  function addSesameSeeds(domeEl) {
+    if (!domeEl) return;
+    for (let i = 0; i < 12; i++) {
+      const seed = document.createElement('div');
+      seed.className = 'sesame-seed';
+      const size = 4 + Math.random() * 2;
+      const x = 10 + Math.random() * 80;
+      const y = 5 + Math.random() * 45;
+      seed.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;`;
+      domeEl.appendChild(seed);
+    }
+  }
+  addSesameSeeds(document.getElementById('oreo-dome'));
+  addSesameSeeds(document.getElementById('choco-dome'));
+
+  // ============================================================
+  // MENU CAROUSEL
+  // ============================================================
+  const menuTrack = document.getElementById('menu-track');
+  const menuCaption = document.getElementById('menu-caption');
+  const progressFill = document.getElementById('carousel-progress');
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
+
+  function updateCarouselCaption() {
+    if (!menuTrack || !menuCaption) return;
+    const cards = menuTrack.querySelectorAll('.menu-card');
+    const trackRect = menuTrack.getBoundingClientRect();
+    let activeCard = cards[0];
+    let minDist = Infinity;
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const dist = Math.abs(rect.left - trackRect.left);
+      if (dist < minDist) {
+        minDist = dist;
+        activeCard = card;
+      }
+    });
+    const caption = activeCard.dataset.caption || '';
+    if (menuCaption.textContent !== caption) {
+      menuCaption.style.opacity = '0';
+      setTimeout(() => {
+        menuCaption.textContent = caption;
+        menuCaption.style.opacity = '1';
+      }, 200);
+    }
+
+    // Progress bar
+    const maxScroll = menuTrack.scrollWidth - menuTrack.clientWidth;
+    const pct = maxScroll > 0 ? (menuTrack.scrollLeft / maxScroll) * 100 : 0;
+    if (progressFill) progressFill.style.width = pct + '%';
+  }
+
+  if (menuTrack) {
+    menuTrack.addEventListener('scroll', updateCarouselCaption, { passive: true });
+  }
+
+  if (prevBtn && menuTrack) {
+    prevBtn.addEventListener('click', () => {
+      const cardWidth = menuTrack.querySelector('.menu-card').offsetWidth + 24;
+      menuTrack.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    });
+  }
+  if (nextBtn && menuTrack) {
+    nextBtn.addEventListener('click', () => {
+      const cardWidth = menuTrack.querySelector('.menu-card').offsetWidth + 24;
+      menuTrack.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    });
+  }
+
+  // Drag scroll
+  if (menuTrack) {
+    let isDragging = false, startX = 0, scrollLeftStart = 0;
+    menuTrack.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.pageX - menuTrack.offsetLeft;
+      scrollLeftStart = menuTrack.scrollLeft;
+      menuTrack.style.cursor = 'grabbing';
+    });
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      if (menuTrack) menuTrack.style.cursor = 'grab';
+    });
+    menuTrack.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - menuTrack.offsetLeft;
+      menuTrack.scrollLeft = scrollLeftStart - (x - startX);
+    });
+  }
+
+  // ============================================================
+  // MENU CARD 3D TILT
+  // ============================================================
+  document.querySelectorAll('.menu-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      if (prefersReduced) return;
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(800px) rotateX(${-y * 6}deg) rotateY(${x * 8}deg) scale(1.03)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // ============================================================
+  // TEA STEAM FAST ON HOVER
+  // ============================================================
+  const teaCardInner = document.getElementById('tea-card-inner');
+  const teaCard = teaCardInner && teaCardInner.closest('.menu-card');
+  if (teaCard && teaCardInner) {
+    teaCard.addEventListener('mouseenter', () => teaCardInner.classList.add('steaming-fast'));
+    teaCard.addEventListener('mouseleave', () => teaCardInner.classList.remove('steaming-fast'));
+  }
+
+  // ============================================================
+  // FLOATING ABOUT PARTICLES
+  // ============================================================
+  const aboutSection = document.getElementById('about');
+  if (aboutSection) {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = 4 + Math.random() * 10;
+      const left = Math.random() * 100;
+      const bottom = Math.random() * 60;
+      const duration = 8 + Math.random() * 12;
+      const delay = Math.random() * 15;
+      p.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${left}%; bottom:${bottom}px;
+        animation-duration:${duration}s;
+        animation-delay:-${delay}s;
+      `;
+      aboutSection.appendChild(p);
+    }
+  }
+
+  // ============================================================
+  // INTERSECTION OBSERVER — REVEAL ANIMATIONS
+  // ============================================================
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = el.dataset.delay || 0;
+        setTimeout(() => {
+          el.classList.add('visible');
+          // heading colour flash
+          if (el.classList.contains('reveal-heading') && !el.dataset.flashed) {
+            el.dataset.flashed = 'true';
+            if (!prefersReduced) {
+              el.style.transition = 'opacity 0.6s, transform 0.6s, color 0.6s';
+              el.style.color = '#C9873A';
+              setTimeout(() => { el.style.color = ''; el.style.transition = ''; }, 600);
+            }
+          }
+        }, delay);
+        revealObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal-heading, .reveal-card').forEach((el, i) => {
+    if (el.classList.contains('reveal-card')) el.dataset.delay = i * 80;
+    revealObserver.observe(el);
+  });
+
+  // Slide-in for contact
+  const slideObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        slideObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.slide-left, .slide-right').forEach(el => slideObserver.observe(el));
+
+  // ============================================================
+  // FOUNDERS PARALLAX ENTRANCE
+  // ============================================================
+  const founderObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        founderObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.founder-card').forEach(card => founderObserver.observe(card));
+
+  // ============================================================
+  // STAT COUNTERS
+  // ============================================================
+  function easeOutQuad(t) { return t * (2 - t); }
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1500;
+    const start = performance.now();
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      el.textContent = Math.round(easeOutQuad(progress) * target);
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.stat-number').forEach(el => {
+          if (!prefersReduced) animateCounter(el);
+          else el.textContent = el.dataset.target;
+        });
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  const statsEl = document.getElementById('founders-stats');
+  if (statsEl) statsObserver.observe(statsEl);
+
+  // ============================================================
+  // THREE.JS HERO
+  // ============================================================
+  (function initThreeJS() {
+    if (typeof THREE === 'undefined') return;
+
+    const canvas = document.getElementById('three-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 8);
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xFFFFFF, 0.5));
+    const dirLight = new THREE.DirectionalLight(0xFFE0B2, 1.4);
+    dirLight.position.set(5, 8, 5);
+    scene.add(dirLight);
+    const pointLight = new THREE.PointLight(0xC9873A, 0.8);
+    pointLight.position.set(0, 3, 3);
+    scene.add(pointLight);
+    scene.add(new THREE.HemisphereLight(0xFFF8F0, 0x3B1F0A, 0.4));
+
+    const SEG = isMobile ? 16 : 32;
+    const SEG2 = isMobile ? 8 : 16;
+
+    // Materials
+    const matGoldenDome = new THREE.MeshPhongMaterial({ color: 0xC9873A, specular: 0xFFD580, shininess: 90 });
+    const matGoldenBase = new THREE.MeshPhongMaterial({ color: 0x8B4513, shininess: 40 });
+    const matButter = new THREE.MeshPhongMaterial({ color: 0xF5F0E8, shininess: 20 });
+    const matJam = new THREE.MeshPhongMaterial({ color: 0xC0392B, shininess: 30 });
+    const matCharcoalDome = new THREE.MeshPhongMaterial({ color: 0x1A1A1A, specular: 0x333333, shininess: 15 });
+    const matWhiteChoco = new THREE.MeshPhongMaterial({ color: 0xFFFFFF, specular: 0xFFFFFF, shininess: 120 });
+    const matDarkChoco = new THREE.MeshPhongMaterial({ color: 0x3D1A00, specular: 0x5C2A0A, shininess: 100 });
+    const matSesame = new THREE.MeshPhongMaterial({ color: 0xD4A85C });
+    const matDripOreo = new THREE.MeshPhongMaterial({ color: 0xFFFFFF, shininess: 80 });
+    const matDripChoco = new THREE.MeshPhongMaterial({ color: 0x5C2A0A, shininess: 60 });
+    const matBoost = new THREE.MeshPhongMaterial({ color: 0x6B3A1F, shininess: 30 });
+    const matTea = new THREE.MeshPhongMaterial({ color: 0xC47A2A, shininess: 50 });
+    const matTeaLiq = new THREE.MeshPhongMaterial({ color: 0x8B3A0A, shininess: 80 });
+
+    function makeBun(domeMat, fillMat, baseMat, isDark) {
+      const group = new THREE.Group();
+      // Dome (top half of sphere)
+      const domeGeo = new THREE.SphereGeometry(1, SEG, SEG2, 0, Math.PI * 2, 0, Math.PI / 2);
+      const dome = new THREE.Mesh(domeGeo, domeMat);
+      dome.position.y = 0;
+      group.add(dome);
+      // Fill band
+      const fillGeo = new THREE.CylinderGeometry(1, 0.95, 0.15, SEG);
+      const fill = new THREE.Mesh(fillGeo, fillMat);
+      fill.position.y = 0;
+      group.add(fill);
+      // Base
+      const baseGeo = new THREE.CylinderGeometry(0.95, 0.85, 0.6, SEG);
+      const base = new THREE.Mesh(baseGeo, baseMat);
+      base.position.y = -0.375;
+      group.add(base);
+
+      if (isDark) {
+        // Sesame seeds
+        for (let i = 0; i < 12; i++) {
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.random() * Math.PI * 0.45;
+          const r = 1.05;
+          const seedGeo = new THREE.SphereGeometry(0.04, 6, 6);
+          const seed = new THREE.Mesh(seedGeo, matSesame);
+          seed.position.set(
+            r * Math.sin(phi) * Math.cos(theta),
+            r * Math.cos(phi),
+            r * Math.sin(phi) * Math.sin(theta)
+          );
+          group.add(seed);
+        }
+      }
+      return group;
+    }
+
+    function addDrips(group, dripMat, count) {
+      for (let i = 0; i < count; i++) {
+        const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
+        const dripGeo = new THREE.CylinderGeometry(0.06, 0.02, 0.22, 6);
+        const drip = new THREE.Mesh(dripGeo, dripMat);
+        drip.position.set(Math.cos(angle) * 0.92, -0.12, Math.sin(angle) * 0.92);
+        drip.userData.swayOffset = i;
+        group.add(drip);
+      }
+    }
+
+    // Build 7 bun groups
+    const bunGroups = [];
+
+    // Bun config: [x, y, z, scale, phase]
+    const bunConfigs = isMobile
+      ? [
+          { x: -2.8, y: 0.4, z: -1, scale: 0.9, phase: 0 },
+          { x: 2.6, y: -0.2, z: -0.5, scale: 0.85, phase: 1.2 },
+          { x: 0, y: 1.2, z: -2, scale: 0.75, phase: 2.4 },
+          { x: -1.2, y: -1.4, z: 0.5, scale: 0.7, phase: 3.6 }
+        ]
+      : [
+          { x: -4.0, y: 0.8, z: -1.5, scale: 0.95, phase: 0 },
+          { x: -1.8, y: -1.0, z: 0.5, scale: 0.85, phase: 1.1 },
+          { x: 1.2, y: 1.4, z: -1.0, scale: 1.0, phase: 2.2 },
+          { x: 3.8, y: 0.2, z: -0.5, scale: 0.9, phase: 3.3 },
+          { x: 0.2, y: -1.6, z: -2.0, scale: 0.8, phase: 4.4 },
+          { x: -3.0, y: 1.8, z: -3.0, scale: 0.5, phase: 5.5 },
+          { x: 2.5, y: -2.2, z: -2.5, scale: 0.5, phase: 0.7 }
+        ];
+
+    const bunTypes = [
+      () => makeBun(matGoldenDome, matButter, matGoldenBase, false),
+      () => makeBun(matGoldenDome, matJam, matGoldenBase, false),
+      () => { const g = makeBun(matCharcoalDome, matWhiteChoco, matCharcoalDome.clone(), true); addDrips(g, matDripOreo, 3); return g; },
+      () => { const g = makeBun(matCharcoalDome, matDarkChoco, matCharcoalDome.clone(), true); addDrips(g, matDripChoco, 4); return g; },
+      () => makeBun(matGoldenDome, matBoost, matGoldenBase, false),
+      () => {
+        const g = new THREE.Group();
+        const cupGeo = new THREE.CylinderGeometry(0.5, 0.4, 0.8, SEG);
+        g.add(new THREE.Mesh(cupGeo, matTea));
+        const liqGeo = new THREE.CylinderGeometry(0.48, 0.48, 0.05, SEG);
+        const liq = new THREE.Mesh(liqGeo, matTeaLiq);
+        liq.position.y = 0.38;
+        g.add(liq);
+        return g;
+      },
+      () => makeBun(matGoldenDome, matButter, matGoldenBase, false)
+    ];
+
+    bunConfigs.forEach((cfg, i) => {
+      const typeIdx = i % bunTypes.length;
+      const group = bunTypes[typeIdx]();
+      group.position.set(cfg.x, cfg.y, cfg.z);
+      group.scale.setScalar(cfg.scale);
+      group.userData = { baseY: cfg.y, phase: cfg.phase, baseScale: cfg.scale };
+      scene.add(group);
+      bunGroups.push(group);
+    });
+
+    // Mouse interaction
+    let mouseNormX = 0, mouseNormY = 0;
+    let targetRotX = 0, targetRotY = 0;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    window.addEventListener('mousemove', (e) => {
+      mouseNormX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseNormY = -(e.clientY / window.innerHeight) * 2 + 1;
+      mouse.set(mouseNormX, mouseNormY);
+    });
+
+    // Bun click squish
+    let squishTimeouts = new WeakMap();
+    window.addEventListener('mousedown', () => {
+      if (prefersReduced) return;
+      raycaster.setFromCamera(mouse, camera);
+      const allMeshes = [];
+      bunGroups.forEach(g => g.traverse(c => { if (c.isMesh) { c.userData.parentGroup = g; allMeshes.push(c); } }));
+      const hits = raycaster.intersectObjects(allMeshes);
+      if (hits.length > 0) {
+        const group = hits[0].object.userData.parentGroup;
+        if (!group) return;
+        const bs = group.userData.baseScale;
+        group.scale.set(bs * 1.15, bs * 0.8, bs * 1.15);
+        clearTimeout(squishTimeouts.get(group));
+        squishTimeouts.set(group, setTimeout(() => {
+          // Spring back
+          let t = 0;
+          const spring = setInterval(() => {
+            t += 0.05;
+            const s = bs + (bs - group.scale.x) * t;
+            group.scale.setScalar(bs + (0 - (group.scale.x - bs)) * t);
+            if (t >= 1) { group.scale.setScalar(bs); clearInterval(spring); }
+          }, 16);
+        }, 120));
+      }
+    });
+
+    // Touch squish (mobile)
+    window.addEventListener('touchstart', (e) => {
+      if (prefersReduced) return;
+      const t = e.touches[0];
+      mouse.set(
+        (t.clientX / window.innerWidth) * 2 - 1,
+        -(t.clientY / window.innerHeight) * 2 + 1
+      );
+      raycaster.setFromCamera(mouse, camera);
+      const allMeshes = [];
+      bunGroups.forEach(g => g.traverse(c => { if (c.isMesh) { c.userData.parentGroup = g; allMeshes.push(c); } }));
+      const hits = raycaster.intersectObjects(allMeshes);
+      if (hits.length > 0) {
+        const group = hits[0].object.userData.parentGroup;
+        if (!group) return;
+        const bs = group.userData.baseScale;
+        group.scale.set(bs * 1.15, bs * 0.8, bs * 1.15);
+        setTimeout(() => group.scale.setScalar(bs), 420);
+      }
+    }, { passive: true });
+
+    // Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Animation loop
+    let frozen = prefersReduced;
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      if (!frozen) {
+        // Scene rotation toward mouse
+        targetRotY += (mouseNormX * 0.12 - targetRotY) * 0.05;
+        targetRotX += (-mouseNormY * 0.08 - targetRotX) * 0.05;
+        scene.rotation.y = targetRotY;
+        scene.rotation.x = targetRotX;
+
+        bunGroups.forEach(group => {
+          const { baseY, phase, baseScale } = group.userData;
+          // Float
+          group.position.y = baseY + Math.sin(time * 0.6 + phase) * 0.35;
+          // Spin
+          group.rotation.y += 0.004;
+          // Drip sway
+          group.children.forEach((child, i) => {
+            if (child.isMesh && child.geometry.type === 'CylinderGeometry' && child.geometry.parameters && child.geometry.parameters.radiusTop < 0.1) {
+              child.rotation.z = Math.sin(time * 0.8 + i) * 0.06;
+            }
+          });
+        });
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  })();
+
+  // ============================================================
+  // INITIAL CALL ON LOAD
+  // ============================================================
+  updateCarouselCaption();
+
+})();
+</script>
+</body>
+</html>
