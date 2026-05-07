@@ -1,0 +1,35 @@
+footer {
+  background: var(--brown-deep);
+  border-top: 1px solid rgba(245, 236, 215, 0.1);
+  padding: 60px 48px 40px;
+  text-align: center;
+}
+
+.footer-logo { margin-bottom: 16px; }
+
+#logo-text-footer {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 900;
+  color: var(--white); letter-spacing: 3px;
+}
+
+.footer-tagline {
+  font-family: 'DM Sans', sans-serif; font-size: 16px;
+  color: rgba(245, 236, 215, 0.6); margin-bottom: 28px;
+}
+
+.footer-icons { display: flex; gap: 20px; justify-content: center; margin-bottom: 32px; }
+
+.footer-icon-link {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(245, 236, 215, 0.2);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  color: var(--white); text-decoration: none;
+}
+.footer-icon-link:hover { background: rgba(245, 236, 215, 0.1); border-color: rgba(245, 236, 215, 0.4); }
+
+.footer-copyright {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: rgba(245, 236, 215, 0.35);
+}

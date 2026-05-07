@@ -1,0 +1,45 @@
+#about {
+  background: var(--off-white);
+  padding: 120px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+}
+
+.about-left .section-label { color: var(--gold); margin-bottom: 20px; display: block; }
+.about-left h2 { color: var(--brown-deep); margin-bottom: 40px; }
+
+.about-pullquote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 700; color: var(--brown-deep); line-height: 1.2;
+  border-left: 4px solid var(--gold); padding-left: 24px; margin: 0;
+}
+
+.about-right { padding-top: 40px; }
+.about-right p { color: var(--brown-mid); margin-bottom: 20px; font-size: 17px; }
+.about-right p:last-child { margin-bottom: 0; }
+
+/* Floating cream particles (injected by JS) */
+.particle {
+  position: absolute; border-radius: 50%;
+  background: var(--cream); opacity: 0;
+  pointer-events: none;
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-120px) rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  #about { padding: 80px 24px; }
+  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+}

@@ -1,0 +1,220 @@
+#menu {
+  background: var(--charcoal);
+  padding: 120px 0 80px;
+  position: relative; overflow: hidden;
+}
+
+.menu-header { text-align: center; padding: 0 48px; margin-bottom: 60px; }
+.menu-header .section-label { color: var(--gold); display: block; margin-bottom: 16px; }
+.menu-header h2 { color: var(--white); margin-bottom: 16px; }
+.menu-header .menu-subheading {
+  font-family: 'DM Sans', sans-serif; font-size: 18px;
+  color: var(--gold); font-style: italic;
+}
+
+/* ---- Carousel ---- */
+.carousel-wrapper { position: relative; }
+
+.menu-track {
+  display: flex;
+  overflow-x: scroll; scroll-snap-type: x mandatory;
+  gap: 24px; padding: 20px 48px 40px;
+  scrollbar-width: none; -ms-overflow-style: none;
+  cursor: grab;
+}
+
+.menu-track:active { cursor: grabbing; }
+.menu-track::-webkit-scrollbar { display: none; }
+
+.menu-card {
+  flex-shrink: 0;
+  width: clamp(260px, 80vw, 320px);
+  scroll-snap-align: start;
+  border-radius: 20px;
+  padding: 32px 24px 28px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.menu-card-golden { background: linear-gradient(160deg, #2A1500, #3D2000); }
+.menu-card-dark   { background: linear-gradient(160deg, #0D0D0D, #1A0A00); }
+.menu-card-tea    { background: linear-gradient(160deg, #1A0F00, #2A1500); }
+
+/* Drip strip — reveals on hover */
+.card-drip-strip {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, var(--gold), var(--brown-mid), var(--gold));
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.4s ease;
+}
+.menu-card:hover .card-drip-strip { clip-path: inset(0 0% 0 0); }
+
+/* Fun badge */
+.fun-badge {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--brown-deep); color: var(--cream);
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 5px 10px; border-radius: 100px;
+  transform: rotate(-12deg);
+  transition: transform 0.2s ease;
+}
+.menu-card:hover .fun-badge { animation: badgeWobble 0.4s ease; }
+@keyframes badgeWobble {
+  0%   { transform: rotate(-12deg); }
+  25%  { transform: rotate(-6deg); }
+  75%  { transform: rotate(-16deg); }
+  100% { transform: rotate(-12deg); }
+}
+
+/* ---- CSS Bun visuals ---- */
+.bun-visual { width: 120px; height: 100px; margin: 0 auto 24px; position: relative; }
+
+/* Golden bun */
+.bun-dome-golden {
+  width: 120px; height: 60px;
+  background: linear-gradient(160deg, #E8A855, #A05A20);
+  border-radius: 70px 70px 0 0;
+  position: absolute; top: 0; left: 0; z-index: 2;
+  box-shadow: inset -8px -8px 20px rgba(0,0,0,0.2), inset 4px 4px 12px rgba(255,220,140,0.3);
+}
+
+.bun-fill-butter { width: 120px; height: 12px; background: #F5F0E8; position: absolute; top: 56px; left: 0; z-index: 3; }
+
+.bun-fill-jam-top    { width: 120px; height: 6px; background: #C0392B; position: absolute; top: 56px; left: 0; z-index: 3; }
+.bun-fill-jam-bottom { width: 120px; height: 6px; background: #F5F0E8; position: absolute; top: 62px; left: 0; z-index: 3; }
+
+.bun-base-golden {
+  width: 114px; height: 36px;
+  background: linear-gradient(180deg, #C47A2A, #8B4513);
+  border-radius: 0 0 60px 60px;
+  position: absolute; bottom: 0; left: 3px; z-index: 1;
+}
+
+/* Charcoal bun */
+.bun-dome-dark {
+  width: 120px; height: 60px;
+  background: radial-gradient(ellipse at 35% 35%, #2D2D2D, #0D0D0D);
+  border-radius: 70px 70px 0 0;
+  position: absolute; top: 0; left: 0; z-index: 2;
+  box-shadow: inset -6px -6px 16px rgba(0,0,0,0.5), inset 3px 3px 10px rgba(80,80,80,0.2);
+}
+
+.sesame-seed { position: absolute; border-radius: 50%; background: #D4A85C; z-index: 4; }
+
+.bun-fill-oreo { width: 120px; height: 14px; background: #FFFFFF; position: absolute; top: 56px; left: 0; z-index: 3; }
+.bun-fill-oreo::after {
+  content: ''; position: absolute;
+  bottom: -18px; left: 20px;
+  width: 16px; height: 20px;
+  background: #FFFFFF;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+
+.bun-fill-choco {
+  width: 120px; height: 14px;
+  background: linear-gradient(180deg, #3D1A00, #2A0E00);
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+.bun-fill-choco::after {
+  content: ''; position: absolute;
+  bottom: -22px; left: 30px;
+  width: 20px; height: 24px;
+  background: #5C2A0A;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+}
+
+.bun-base-dark {
+  width: 114px; height: 36px;
+  background: linear-gradient(180deg, #1A1A1A, #0D0D0D);
+  border-radius: 0 0 60px 60px;
+  position: absolute; bottom: 0; left: 3px; z-index: 1;
+}
+
+/* Boost / Horlicks fill */
+.bun-fill-boost {
+  width: 120px; height: 12px;
+  background: linear-gradient(180deg, #6B3A1F, #4A2210);
+  position: absolute; top: 56px; left: 0; z-index: 3;
+}
+
+/* ---- Tea card ---- */
+.tea-visual { width: 80px; height: 100px; margin: 0 auto 24px; position: relative; }
+
+.tea-cup {
+  width: 70px; height: 60px;
+  background: linear-gradient(180deg, #C47A2A, #8B3A0A);
+  border-radius: 4px 4px 12px 12px;
+  position: absolute; bottom: 0; left: 5px;
+}
+
+.tea-cup::before {
+  content: ''; position: absolute;
+  right: -14px; top: 8px;
+  width: 14px; height: 24px;
+  border: 3px solid #A05A20;
+  border-left: none; border-radius: 0 12px 12px 0;
+}
+
+.tea-steam-particle {
+  position: absolute; width: 6px; height: 6px;
+  background: rgba(255,255,255,0.5); border-radius: 50%;
+  animation: steamRise 2s ease-out infinite; opacity: 0;
+}
+
+.tea-steam-particle:nth-child(1) { left: 18px; bottom: 64px; animation-delay: 0s; }
+.tea-steam-particle:nth-child(2) { left: 30px; bottom: 64px; animation-delay: 0.3s; }
+.tea-steam-particle:nth-child(3) { left: 42px; bottom: 64px; animation-delay: 0.6s; }
+.tea-steam-particle:nth-child(4) { left: 24px; bottom: 64px; animation-delay: 0.9s; }
+.tea-steam-particle:nth-child(5) { left: 36px; bottom: 64px; animation-delay: 1.2s; }
+
+@keyframes steamRise {
+  0%   { opacity: 0; transform: translateY(0) scaleX(1); }
+  30%  { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-30px) scaleX(1.5); }
+}
+
+.tea-card-inner.steaming-fast .tea-steam-particle { animation-duration: 1s; }
+
+/* Card text */
+.card-name {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+  color: var(--white); margin-bottom: 10px;
+}
+.card-desc {
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: rgba(255,255,255,0.65); line-height: 1.7;
+}
+
+/* Carousel controls */
+.carousel-nav { display: flex; justify-content: center; gap: 16px; margin-top: 12px; padding: 0 48px; }
+
+.carousel-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--white); font-size: 18px; cursor: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease;
+}
+.carousel-btn:hover { background: var(--gold); border-color: var(--gold); }
+
+/* Progress bar */
+.carousel-progress-wrap { padding: 20px 48px 0; }
+.carousel-progress-bg   { height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+.carousel-progress-fill { height: 2px; background: var(--cream); border-radius: 2px; width: 0%; transition: width 0.2s ease; }
+
+/* Dynamic caption */
+#menu-caption {
+  text-align: center; padding: 24px 48px 0;
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  font-style: italic; color: var(--gold); min-height: 40px;
+  transition: opacity 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .menu-track { padding: 20px 24px 40px; }
+  .carousel-nav { padding: 0 24px; }
+  .carousel-progress-wrap { padding: 20px 24px 0; }
+  #menu-caption { padding: 24px 24px 0; }
+}

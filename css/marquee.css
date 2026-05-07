@@ -1,0 +1,35 @@
+#marquee-strip {
+  background: var(--brown-deep);
+  padding: 18px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-block;
+  animation: marqueeScroll 40s linear infinite;
+}
+
+#marquee-strip:hover .marquee-track { animation-play-state: paused; }
+
+.marquee-track span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--white); padding: 0 16px;
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Wave dividers between sections */
+.wave-divider { display: block; width: 100%; overflow: hidden; line-height: 0; }
+.wave-divider svg { display: block; width: 100%; }
+.wave-path { animation: waveMorph 6s ease-in-out infinite alternate; }
+
+@keyframes waveMorph {
+  0%   { d: path("M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 C1400,100 1600,20 1800,60 L1800,120 L0,120 Z"); }
+  100% { d: path("M0,80 C200,20 400,100 600,50 C800,10 1000,90 1200,40 C1400,10 1600,80 1800,50 L1800,120 L0,120 Z"); }
+}
